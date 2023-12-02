@@ -9,4 +9,5 @@ export interface city{
     name:string,
     image:string,
     description:string,
+    isVisited:boolean,
 }

@@ -29,6 +29,8 @@ function AddCity({ addCity }:city) {
             image: formData.image,
             isVisited: formData.isVisited
         };
+        console.log(city);
+        
         addCity(city)
     }
 
@@ -53,7 +55,7 @@ function AddCity({ addCity }:city) {
                                     <label className="form-control w-full max-w-xs">
                                         <div className="label ">
                                             <span className="label-text">Aggiungi url foto</span>
-                                            <a target="_blank" href="https://unsplash.com/it/s/foto/torino" className="badge badge-primary hover:badge-outline cursor-pointer">
+                                            <a target="_blank" href={`https://unsplash.com/it/s/foto/${formData.name}`} className="badge badge-primary hover:badge-outline cursor-pointer">
                                                 UnSplash
                                             </a>
                                         </div>
@@ -64,12 +66,12 @@ function AddCity({ addCity }:city) {
                                         <div className="label">
                                             <span className="label-text">Descrizione</span>
                                         </div>
-                                        <textarea onChange={handleInputChange} name="descrizione" className="textarea textarea-bordered">{formData.description}</textarea>
+                                        <textarea onChange={handleInputChange} value={formData.description} name="description" className="textarea textarea-bordered"></textarea>
                                     </label>
 
                                     <label className="cursor-pointer label">
                                         <span className="label-text me-3">Già visitata?</span>
-                                        <input checked={formData.isVisited} onChange={handleInputChange} type="checkbox" className="checkbox checkbox-success" />
+                                        <input checked={formData.isVisited} name="isVisited" onChange={handleInputChange} type="checkbox" className="checkbox checkbox-success" />
                                     </label>
 
                                     <div className="flex items-baseline justify-end w-full pt-3">

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { card } from "../../types/card-type";
+import { city } from "../../types/card-type";
 
 import { motion } from "framer-motion";
 
-function Card({ id, name, image }: card) {
+function Card({ id, name, image, description,isVisited }: city) {
 
-    const [visited, setVisited] = useState(false);
+    const [visited, setVisited] = useState(isVisited);
 
     const changeVisited = () => {
         setVisited(!visited)
@@ -18,7 +18,7 @@ function Card({ id, name, image }: card) {
             </figure>
             <div className="card-body">
                 <h2 className="card-title">{name}</h2>
-                <p className="truncate">If a dog chews shoes whose shoes does he choose? {id}</p>
+                <p className="truncate">{description} {id}</p>
                 <div className="flex justify-between">
                     {/* <div className="card-actions justify-end">
                             <button className="btn btn-primary">Visitata</button>
