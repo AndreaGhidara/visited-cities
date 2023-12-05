@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import Card from '../components/LittleComponents/Card';
 import AddCity from '../components/AddCity';
+import { city } from '../types/card-type';
 
 function Home() {
 
-    const [cities, setCities] = useState([
+    const [cities, setCities] = useState<city[]>([
         {
             id: 0,
             name: "Roma",
@@ -29,7 +30,7 @@ function Home() {
         },
     ])
 
-    const addCity = (city) => {
+    const addCity = (city:city) => {
         setCities([...cities,city])
     }
 

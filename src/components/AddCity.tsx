@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { city } from "../types/card-type"
 
+interface AddCityProps {
+    addCity: (city: city) => void;
+}
 
-function AddCity({ addCity }:city) {
+function AddCity({ addCity }: AddCityProps) {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -11,17 +14,25 @@ function AddCity({ addCity }:city) {
         isVisited: false
     });
 
-    const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value, type, checked } = e.target
-        const inputValue = type == "checkbox" ? checked : value;
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        const { name, value, type } = e.target
+
+        let inputValue: string | boolean = value;
+
+        if (type === "checkbox") {
+            inputValue = (e.target as HTMLInputElement).checked;
+        }
+
         setFormData({
             ...formData,
             [name]: inputValue,
         })
     }
 
-    const handleSubit = (e:React.ChangeEvent<HTMLInputElement>): void => {
+    const handleSubit = (e: React.FormEvent<HTMLFormElement>): void => {
+
         e.preventDefault();
+
         const city = {
             id: Math.random(),
             name: formData.name,
@@ -29,15 +40,35 @@ function AddCity({ addCity }:city) {
             image: formData.image,
             isVisited: formData.isVisited
         };
-        console.log(city);
-        
         addCity(city)
+
+        setFormData({
+            name: "",
+            description: "",
+            image: "",
+            isVisited: false
+        })
+    }
+
+    const showModal = () => {
+        const modale = document.getElementById('my_modal_1') as HTMLDialogElement | null;
+
+        if (modale) {
+            modale.showModal()
+        } else {
+            alert('Manca la modale')
+        }
+    }
+
+    const imageNotFound = (e: React.ChangeEvent<HTMLImageElement>) => {
+        e.target.src = 'https://www.leliografica.net/upload/870_541/nullcms.png';
+
     }
 
     return (
         <div className="mb-4">
             <div className="indicator-item indicator-bottom">
-                <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>Add City ➕</button>
+                <button className="btn" onClick={() => showModal()}>Add City ➕</button>
                 <dialog id="my_modal_1" className="modal">
                     <div className="modal-box">
                         <h3 className="font-bold text-lg">Hello!</h3>
@@ -62,12 +93,18 @@ function AddCity({ addCity }:city) {
                                         <input name="image" type="text" placeholder={`https://unsplash.com/it/s/foto/${formData.name}`} value={formData.image} onChange={handleInputChange} className="input input-bordered w-full max-w-xs" />
                                     </label>
 
+
+
                                     <label className="form-control w-full max-w-xs">
                                         <div className="label">
                                             <span className="label-text">Descrizione</span>
                                         </div>
                                         <textarea onChange={handleInputChange} value={formData.description} name="description" className="textarea textarea-bordered"></textarea>
                                     </label>
+
+                                    <div className="py-3">
+                                        <img onError={imageNotFound} className=" object-cover w-[100px] h-[100px] rounded" src={formData.image} alt="" />
+                                    </div>
 
                                     <label className="cursor-pointer label">
                                         <span className="label-text me-3">Già visitata?</span>
